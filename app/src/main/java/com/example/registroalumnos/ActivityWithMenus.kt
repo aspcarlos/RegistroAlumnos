@@ -26,6 +26,7 @@ open class ActivityWithMenus : AppCompatActivity() {
             if(i== actividadActual) menu.getItem(i).isEnabled = false
             else menu.getItem(i)?.isEnabled = true
         }
+
         return true
 
     }
@@ -43,7 +44,7 @@ open class ActivityWithMenus : AppCompatActivity() {
             R.id.actualizar -> {
                 actividadActual = 1
                 // Hacemos que se abra la pantalla del activity_update:
-                val intent = Intent(this, MainActivity::class.java)
+                val intent = Intent(this, UpdateActivity::class.java)
                 intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
                 startActivity(intent)
                 true
@@ -51,7 +52,7 @@ open class ActivityWithMenus : AppCompatActivity() {
             R.id.eliminar -> {
                 actividadActual = 2
                 // Hacemos que se abra la pantalla del delete_update:
-                val intent = Intent(this, MainActivity::class.java)
+                val intent = Intent(this, DeleteActivity::class.java)
                 intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
                 startActivity(intent)
                 true

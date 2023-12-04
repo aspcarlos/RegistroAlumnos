@@ -10,5 +10,4 @@ data class Alumnos(
     var nombre:String = "",
     var apellidos:String = "",
     var curso:String = "",
-    var activo:Boolean = false
 )

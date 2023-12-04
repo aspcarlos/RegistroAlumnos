@@ -1,10 +1,13 @@
 package com.example.registroalumnos
 
+import android.app.Activity
 import android.os.Bundle
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import com.example.registroalumnos.database.Alumnos
 import com.example.registroalumnos.database.AlumnosApp
 import com.example.registroalumnos.databinding.ActivityDeleteBinding
+import com.example.registroalumnos.databinding.ActivityMainBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -13,9 +16,12 @@ class DeleteActivity : ActivityWithMenus() {
 
     private lateinit var listaAlumnos: MutableList<Alumnos>
 
+    // Declaramos el binding
+    private lateinit var binding : ActivityDeleteBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val binding = ActivityDeleteBinding.inflate(layoutInflater)
+        binding = ActivityDeleteBinding.inflate(layoutInflater)
         setContentView(R.layout.activity_delete)
 
         // Inicializamos la lista de alumnos
@@ -24,8 +30,7 @@ class DeleteActivity : ActivityWithMenus() {
         // Evento click del botón eliminar alumno
         binding.bEliminar.setOnClickListener(){
 
-            var nombreAlumno = binding.nombreEliminar.text.toString()
-
+            val nombreAlumno = binding.nombreEliminar.text.toString()
 
             // Validaciones
             if (nombreAlumno.isEmpty())
@@ -34,9 +39,10 @@ class DeleteActivity : ActivityWithMenus() {
             }
             else
             {
-                var alumno = Alumnos(nombre = nombreAlumno)
+                val alumno = Alumnos(nombre = nombreAlumno)
 
                 eliminarAlumno(alumno)
+
                 Toast.makeText(this, "Alumno eliminado", Toast.LENGTH_SHORT).show()
 
             }
@@ -48,6 +54,17 @@ class DeleteActivity : ActivityWithMenus() {
         CoroutineScope(Dispatchers.IO).launch {
             AlumnosApp.database.interfazDao().deleteAlumnos(alumno.nombre)
         }
+    }
+
+    // Funcion para cerrar el teclado
+    fun cerrarTeclado() {
+        val imm = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(binding.root.windowToken, 0)
+    }
+
+    // Funcion para limpiar los campos
+    fun limpiarCampos() {
+        binding.nombreEliminar.text.clear()
     }
 
 }
